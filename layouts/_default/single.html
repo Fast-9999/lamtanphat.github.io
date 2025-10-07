@@ -1,0 +1,94 @@
+{{ define "main" }}
+<!-- Default single page layout for other pages -->
+<section class="single-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ .Title }}</h1>
+        </div>
+        
+        <div class="page-content">
+            {{ .Content }}
+        </div>
+    </div>
+</section>
+
+<style>
+.single-page {
+    padding: 2rem 0;
+    min-height: 80vh;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.page-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.page-content h2 {
+    color: var(--primary-color);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.page-content h3 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.page-content p {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.page-content ul, .page-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.page-content li {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.page-content strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.page-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.page-content a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .page-content {
+        padding: 0 1rem;
+    }
+}
+</style>
+{{ end }}

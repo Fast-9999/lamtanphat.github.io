@@ -1,0 +1,54 @@
+{{ $image := .image }}
+{{ $alt := .alt | default "" }}
+{{ $class := .class | default "" }}
+{{ $loading := .loading | default "lazy" }}
+{{ $sizes := .sizes | default "100vw" }}
+{{ $width := .width | default 800 }}
+{{ $height := .height | default 600 }}
+
+{{ if $image }}
+  {{ if hasPrefix $image "http" }}
+    {{/* External URL - use directly */}}
+    <img 
+      src="{{ $image }}" 
+      alt="{{ $alt }}"
+      loading="{{ $loading }}"
+      decoding="async"
+      width="{{ $width }}"
+      height="{{ $height }}"
+      class="{{ $class }}"
+    >
+  {{ else }}
+    {{/* Local file - try to optimize */}}
+    {{ $imageResource := resources.Get $image }}
+    {{ if $imageResource }}
+      {{ $resized := $imageResource.Fill (printf "%dx%d" $width $height) }}
+      {{ $webp := $resized | resources.Fingerprint | resources.ExecuteAsTemplate (printf "%s.webp" $resized.Name) . }}
+      {{ $jpg := $resized | resources.Fingerprint | resources.ExecuteAsTemplate (printf "%s.jpg" $resized.Name) . }}
+      
+      <picture class="{{ $class }}">
+        <source srcset="{{ $webp.RelPermalink }}" type="image/webp" sizes="{{ $sizes }}">
+        <source srcset="{{ $jpg.RelPermalink }}" type="image/jpeg" sizes="{{ $sizes }}">
+        <img 
+          src="{{ $jpg.RelPermalink }}" 
+          alt="{{ $alt }}"
+          loading="{{ $loading }}"
+          decoding="async"
+          width="{{ $width }}"
+          height="{{ $height }}"
+          class="{{ $class }}"
+        >
+      </picture>
+    {{ else }}
+      <img 
+        src="{{ $image | relURL }}" 
+        alt="{{ $alt }}"
+        loading="{{ $loading }}"
+        decoding="async"
+        width="{{ $width }}"
+        height="{{ $height }}"
+        class="{{ $class }}"
+      >
+    {{ end }}
+  {{ end }}
+{{ end }}

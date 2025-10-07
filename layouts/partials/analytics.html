@@ -1,0 +1,192 @@
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GA_MEASUREMENT_ID', {
+    page_title: '{{ .Title }}',
+    page_location: '{{ .Permalink }}',
+    custom_map: {
+      'custom_parameter_1': 'category',
+      'custom_parameter_2': 'tags'
+    }
+  });
+  
+  // Track page views
+  gtag('event', 'page_view', {
+    page_title: '{{ .Title }}',
+    page_location: '{{ .Permalink }}',
+    content_group1: '{{ if .IsHome }}Homepage{{ else if eq .Section "blog" }}Blog{{ else }}{{ .Section | title }}{{ end }}',
+    content_group2: '{{ with .Params.categories }}{{ index . 0 }}{{ end }}',
+    content_group3: '{{ with .Params.tags }}{{ index . 0 }}{{ end }}'
+  });
+  
+  // Track reading time for blog posts
+  {{ if eq .Section "blog" }}
+  let startTime = Date.now();
+  let readingTime = {{ .ReadingTime }};
+  
+  // Track when user starts reading
+  gtag('event', 'begin_content', {
+    content_type: 'blog_post',
+    item_id: '{{ with .File }}{{ .LogicalName }}{{ else }}{{ .Title | urlize }}{{ end }}',
+    content_name: '{{ .Title }}'
+  });
+  
+  // Track reading progress
+  function trackReadingProgress() {
+    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+    
+    if (scrollPercent >= 25 && scrollPercent < 50) {
+      gtag('event', 'scroll', {
+        content_type: 'blog_post',
+        item_id: '{{ with .File }}{{ .LogicalName }}{{ else }}{{ .Title | urlize }}{{ end }}',
+        percent_scrolled: 25
+      });
+    } else if (scrollPercent >= 50 && scrollPercent < 75) {
+      gtag('event', 'scroll', {
+        content_type: 'blog_post',
+        item_id: '{{ with .File }}{{ .LogicalName }}{{ else }}{{ .Title | urlize }}{{ end }}',
+        percent_scrolled: 50
+      });
+    } else if (scrollPercent >= 75 && scrollPercent < 90) {
+      gtag('event', 'scroll', {
+        content_type: 'blog_post',
+        item_id: '{{ with .File }}{{ .LogicalName }}{{ else }}{{ .Title | urlize }}{{ end }}',
+        percent_scrolled: 75
+      });
+    } else if (scrollPercent >= 90) {
+      gtag('event', 'scroll', {
+        content_type: 'blog_post',
+        item_id: '{{ with .File }}{{ .LogicalName }}{{ else }}{{ .Title | urlize }}{{ end }}',
+        percent_scrolled: 90
+      });
+    }
+  }
+  
+  // Track time spent on page
+  function trackTimeSpent() {
+    const timeSpent = Math.round((Date.now() - startTime) / 1000);
+    
+    if (timeSpent >= 30 && timeSpent < 60) {
+      gtag('event', 'timing_complete', {
+        name: 'time_on_page',
+        value: 30,
+        event_category: 'engagement',
+        event_label: '{{ .Title }}'
+      });
+    } else if (timeSpent >= 60 && timeSpent < 120) {
+      gtag('event', 'timing_complete', {
+        name: 'time_on_page',
+        value: 60,
+        event_category: 'engagement',
+        event_label: '{{ .Title }}'
+      });
+    } else if (timeSpent >= 120) {
+      gtag('event', 'timing_complete', {
+        name: 'time_on_page',
+        value: 120,
+        event_category: 'engagement',
+        event_label: '{{ .Title }}'
+      });
+    }
+  }
+  
+  // Add event listeners
+  window.addEventListener('scroll', trackReadingProgress);
+  setInterval(trackTimeSpent, 30000); // Check every 30 seconds
+  
+  // Track when user leaves the page
+  window.addEventListener('beforeunload', function() {
+    const timeSpent = Math.round((Date.now() - startTime) / 1000);
+    gtag('event', 'timing_complete', {
+      name: 'time_on_page',
+      value: timeSpent,
+      event_category: 'engagement',
+      event_label: '{{ .Title }}'
+    });
+  });
+  {{ end }}
+  
+  // Track social sharing
+  function trackSocialShare(platform) {
+    gtag('event', 'share', {
+      method: platform,
+      content_type: '{{ if eq .Section "blog" }}blog_post{{ else }}page{{ end }}',
+      item_id: '{{ with .File }}{{ .LogicalName }}{{ else }}{{ .Title | urlize }}{{ end }}',
+      content_name: '{{ .Title }}'
+    });
+  }
+  
+  // Track newsletter signup
+  function trackNewsletterSignup() {
+    gtag('event', 'sign_up', {
+      method: 'newsletter',
+      event_category: 'engagement'
+    });
+  }
+  
+  // Track search queries
+  function trackSearch(query) {
+    gtag('event', 'search', {
+      search_term: query,
+      event_category: 'site_search'
+    });
+  }
+  
+  // Track downloads (if any)
+  function trackDownload(fileName) {
+    gtag('event', 'file_download', {
+      file_name: fileName,
+      event_category: 'download'
+    });
+  }
+  
+  // Track outbound links
+  function trackOutboundLink(url) {
+    gtag('event', 'click', {
+      event_category: 'outbound',
+      event_label: url,
+      transport_type: 'beacon'
+    });
+  }
+  
+  // Enhanced Ecommerce tracking (if applicable)
+  function trackPurchase(transactionId, value, currency = 'VND') {
+    gtag('event', 'purchase', {
+      transaction_id: transactionId,
+      value: value,
+      currency: currency,
+      event_category: 'ecommerce'
+    });
+  }
+</script>
+
+<!-- Google Tag Manager (Alternative) -->
+<!--
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+-->
+
+<!-- Facebook Pixel (Optional) -->
+<!--
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+/></noscript>
+-->

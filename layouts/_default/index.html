@@ -1,0 +1,276 @@
+{{ define "main" }}
+<section class="hero">
+    <div class="hero-background">
+        <div class="hero-pattern"></div>
+    </div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-text">🚀 Blog Lập Trình Chuyên Nghiệp</span>
+            </div>
+            <h1 class="hero-title">Chào mừng đến với <span class="hero-title-highlight">Blog Lập Trình Mạng</span></h1>
+            <p class="hero-description">Khám phá thế giới lập trình qua những bài viết chất lượng về Java, JavaScript, DevOps và các công nghệ hiện đại</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-number">{{ len (where .Site.RegularPages "Section" "blog") }}+</span>
+                    <span class="hero-stat-label">Bài viết</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">3</span>
+                    <span class="hero-stat-label">Chuyên mục</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">1000+</span>
+                    <span class="hero-stat-label">Độc giả</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="/blog/" class="btn btn-primary btn-hero">
+                    <span>📚 Khám phá Blog</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="/about/" class="btn btn-secondary btn-hero">
+                    <span>👨‍💻 Về tôi</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="featured-posts">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Bài viết nổi bật</h2>
+            <p class="section-subtitle">Những bài viết được chọn lọc và đánh giá cao nhất</p>
+        </div>
+        <div class="featured-grid">
+            {{ $featuredPosts := where (where .Site.RegularPages "Section" "blog") "Params.featured" true }}
+            {{ if $featuredPosts }}
+                {{ range first 3 $featuredPosts }}
+                <article class="featured-card">
+                    {{ if .Params.featured_image }}
+                    <div class="featured-thumbnail">
+                        {{ partial "optimized-image.html" (dict "image" .Params.featured_image "alt" .Title "class" "featured-img" "width" 400 "height" 250) }}
+                        {{ if .Params.featured_badge }}
+                        <span class="featured-badge">{{ .Params.featured_badge }}</span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                    <div class="featured-content">
+                        <div class="featured-meta">
+                            {{ range first 1 .Params.categories }}
+                            <span class="featured-category">{{ . }}</span>
+                            {{ end }}
+                            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2/1/2006" }}</time>
+                        </div>
+                        <h3 class="featured-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </h3>
+                        <p class="featured-excerpt">{{ .Summary | truncate 120 }}</p>
+                        <div class="featured-footer">
+                            <span class="read-time">{{ .ReadingTime }} phút đọc</span>
+                            <a href="{{ .RelPermalink }}" class="read-more">Đọc tiếp →</a>
+                        </div>
+                    </div>
+                </article>
+                {{ end }}
+            {{ else }}
+                {{ range first 3 (where .Site.RegularPages "Section" "blog") }}
+                <article class="featured-card">
+                    {{ if .Params.featured_image }}
+                    <div class="featured-thumbnail">
+                        {{ partial "optimized-image.html" (dict "image" .Params.featured_image "alt" .Title "class" "featured-img" "width" 400 "height" 250) }}
+                    </div>
+                    {{ end }}
+                    <div class="featured-content">
+                        <div class="featured-meta">
+                            {{ range first 1 .Params.categories }}
+                            <span class="featured-category">{{ . }}</span>
+                            {{ end }}
+                            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2/1/2006" }}</time>
+                        </div>
+                        <h3 class="featured-title">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </h3>
+                        <p class="featured-excerpt">{{ .Summary | truncate 120 }}</p>
+                        <div class="featured-footer">
+                            <span class="read-time">{{ .ReadingTime }} phút đọc</span>
+                            <a href="{{ .RelPermalink }}" class="read-more">Đọc tiếp →</a>
+                        </div>
+                    </div>
+                </article>
+                {{ end }}
+            {{ end }}
+        </div>
+        <div class="section-actions">
+            <a href="/blog/" class="btn btn-gradient btn-lg">Xem tất cả bài viết</a>
+        </div>
+    </div>
+</section>
+
+<section class="recent-posts">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Bài viết mới nhất</h2>
+            <p class="section-subtitle">Những bài viết mới được cập nhật gần đây</p>
+        </div>
+        <div class="recent-grid">
+            {{ $allPosts := where .Site.RegularPages "Section" "blog" }}
+            {{ $featuredPosts := where $allPosts "Params.featured" true }}
+            {{ $recentPosts := slice }}
+            {{ range $allPosts }}
+                {{ if not (in $featuredPosts .) }}
+                    {{ $recentPosts = $recentPosts | append . }}
+                {{ end }}
+            {{ end }}
+            {{ range first 3 $recentPosts }}
+            <article class="recent-card">
+                {{ if .Params.featured_image }}
+                <div class="recent-thumbnail">
+                    {{ partial "optimized-image.html" (dict "image" .Params.featured_image "alt" .Title "class" "recent-img" "width" 300 "height" 200) }}
+                </div>
+                {{ end }}
+                <div class="recent-content">
+                    <div class="recent-meta">
+                        {{ range first 1 .Params.categories }}
+                        <span class="recent-category">{{ . }}</span>
+                        {{ end }}
+                        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2/1/2006" }}</time>
+                    </div>
+                    <h3 class="recent-title">
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </h3>
+                    <p class="recent-excerpt">{{ .Summary | truncate 100 }}</p>
+                    <div class="recent-footer">
+                        <span class="read-time">{{ .ReadingTime }} phút đọc</span>
+                        <a href="{{ .RelPermalink }}" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+        <div class="section-actions">
+            <a href="/blog/" class="btn btn-gradient btn-lg">Xem tất cả bài viết</a>
+        </div>
+    </div>
+</section>
+
+<section class="categories-section">
+    <div class="container">
+        <h2 class="section-title">Chuyên mục</h2>
+        <div class="categories-grid">
+            <a href="/categories/java/" class="category-card">
+                <div class="category-icon">☕</div>
+                <h3>Java</h3>
+                <p>Spring Boot, JVM, OOP và các công nghệ Java</p>
+                <span class="post-count">{{ len (where (where .Site.RegularPages "Section" "blog") "Params.categories" "intersect" (slice "Java")) }} bài viết</span>
+            </a>
+            <a href="/categories/javascript/" class="category-card">
+                <div class="category-icon">⚡</div>
+                <h3>JavaScript</h3>
+                <p>React, Vue.js, Node.js và ES6+</p>
+                <span class="post-count">{{ len (where (where .Site.RegularPages "Section" "blog") "Params.categories" "intersect" (slice "JavaScript")) }} bài viết</span>
+            </a>
+            <a href="/categories/devops/" class="category-card">
+                <div class="category-icon">🐳</div>
+                <h3>DevOps</h3>
+                <p>Docker, CI/CD và Infrastructure</p>
+                <span class="post-count">{{ len (where (where .Site.RegularPages "Section" "blog") "Params.categories" "intersect" (slice "DevOps")) }} bài viết</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="section-title">Độc giả nói gì</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Bài viết về Spring Boot rất chi tiết và dễ hiểu. Tôi đã áp dụng được ngay vào dự án của mình!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👨‍💻</div>
+                    <div class="author-info">
+                        <h4>Nguyễn Minh T</h4>
+                        <span>Java Developer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Hướng dẫn React rất hay, từ cơ bản đến nâng cao. Cảm ơn bạn đã chia sẻ kiến thức!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👩‍💻</div>
+                    <div class="author-info">
+                        <h4>Trần Thị H</h4>
+                        <span>Frontend Developer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Blog này giúp tôi học được nhiều điều mới về JavaScript và API development. Rất hữu ích!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👨‍🎓</div>
+                    <div class="author-info">
+                        <h4>Lê Văn K</h4>
+                        <span>Sinh viên IT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter-section">
+    <div class="container">
+        <div class="newsletter-content">
+            <div class="newsletter-text">
+                <h2>Đăng ký nhận tin</h2>
+                <p>Nhận thông báo về bài viết mới và chia sẻ kiến thức lập trình hàng tuần</p>
+            </div>
+            <form class="newsletter-form" id="newsletterForm">
+                <div class="form-group">
+                    <input type="email" name="email" id="newsletterEmail" placeholder="Nhập email của bạn" required>
+                    <button type="submit" class="btn btn-primary" id="newsletterSubmit">Đăng ký</button>
+                </div>
+                <p class="newsletter-note">Chúng tôi tôn trọng quyền riêng tư của bạn và không spam.</p>
+                <div id="newsletterMessage" class="newsletter-message" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="about-preview">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Về tôi</h2>
+                <p>Tôi là một lập trình viên đam mê với công nghệ web và chia sẻ kiến thức về lập trình. Blog này được tạo ra để chia sẻ những kiến thức, kinh nghiệm và bài học mà tôi đã tích lũy được trong quá trình học tập và làm việc.</p>
+                <div class="skills">
+                    <h3>Chuyên môn</h3>
+                    <ul>
+                        <li><strong>Java:</strong> Spring Boot, Spring Security, JPA/Hibernate</li>
+                        <li><strong>JavaScript:</strong> Node.js, React, Vue.js, Express.js</li>
+                        <li><strong>Database:</strong> MySQL, PostgreSQL, MongoDB</li>
+                        <li><strong>DevOps:</strong> Docker, AWS, CI/CD</li>
+                    </ul>
+                </div>
+                <a href="/about/" class="btn btn-primary btn-lg">Tìm hiểu thêm</a>
+            </div>
+            <div class="about-image">
+                <div class="profile-image">
+                    <img src="/images/phat.jpg" alt="TaansFast - Lập trình viên" width="200" height="200">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}

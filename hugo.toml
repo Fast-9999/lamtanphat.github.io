@@ -1,0 +1,67 @@
+baseURL = 'https://fast-9999.github.io/lamtanphat.github.io/'
+languageCode = 'vi'
+title = 'Blog Lập Trình Mạng'
+
+[params]
+  author = "TaansFast"
+  description = "Blog cá nhân chia sẻ kiến thức về lập trình Java và JavaScript"
+  keywords = ["Java", "JavaScript", "Lập trình", "Web Development", "TypeScript", "Docker", "Spring Boot", "React", "Vue.js"]
+  twitter = "taansfast_dev"
+  github = "taansfast"
+  linkedin = "taansfast"
+  email = "taansfast@email.com"
+  
+  # SEO Settings
+  seo = true
+  robots = "index, follow"
+  
+  # Social Media
+  social = [
+    { name = "GitHub", url = "https://github.com/nguyenvana" },
+    { name = "LinkedIn", url = "https://linkedin.com/in/nguyenvana" },
+    { name = "Twitter", url = "https://twitter.com/nguyenvana_dev" }
+  ]
+  
+  # Analytics
+  googleAnalytics = "GA_MEASUREMENT_ID"
+  
+  # Comments
+  giscusRepo = "your-username/your-repo"
+  giscusRepoId = "your-repo-id"
+  giscusCategory = "General"
+  giscusCategoryId = "your-category-id"
+  
+[menu]
+  [[menu.main]]
+    name = "Trang chủ"
+    url = "/"
+    weight = 1
+  
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 2
+    
+  [[menu.main]]
+    name = "Giới thiệu"
+    url = "/about/"
+    weight = 3
+    
+  [[menu.main]]
+    name = "Liên hệ"
+    url = "/contact/"
+    weight = 4
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+      
+[build]
+  writeStats = true
+
+[server]
+  disableFastRender = false
+  disableLiveReload = false
+  watch = true
+  port = 1313

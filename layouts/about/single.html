@@ -1,0 +1,129 @@
+{{ define "main" }}
+<section class="about-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ .Title }}</h1>
+        </div>
+        
+        <div class="about-content">
+            {{ .Content }}
+        </div>
+    </div>
+</section>
+
+<style>
+.about-page {
+    padding: 2rem 0;
+    min-height: 80vh;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.about-content h2 {
+    color: var(--primary-color);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.about-content h3 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.about-content h4 {
+    color: var(--text-primary);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.about-content p {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.about-content ul, .about-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.about-content li {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.about-content strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.about-content blockquote {
+    background: var(--card-bg);
+    border-left: 4px solid var(--primary-color);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: var(--shadow);
+}
+
+.about-content blockquote p {
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.about-content blockquote strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.about-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.about-content a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .about-content {
+        padding: 0 1rem;
+    }
+    
+    .about-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .about-content h3 {
+        font-size: 1.3rem;
+    }
+}
+</style>
+{{ end }}

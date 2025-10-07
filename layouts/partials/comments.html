@@ -1,0 +1,188 @@
+<div class="comments-section">
+    <h4>Bình luận</h4>
+    <div class="comments-info">
+        <p>Tham gia thảo luận về bài viết này. Bình luận được quản lý bởi GitHub Discussions.</p>
+    </div>
+    
+    <div id="giscus-comments"></div>
+    
+    <script src="https://giscus.app/client.js"
+            data-repo="{{ .Site.Params.giscusRepo }}"
+            data-repo-id="{{ .Site.Params.giscusRepoId }}"
+            data-category="{{ .Site.Params.giscusCategory }}"
+            data-category-id="{{ .Site.Params.giscusCategoryId }}"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="light"
+            data-lang="vi"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    
+    <script>
+        // Theme toggle for Giscus
+        function updateGiscusTheme() {
+            const theme = document.documentElement.getAttribute('data-theme') || 'light';
+            const iframe = document.querySelector('iframe.giscus-frame');
+            if (iframe) {
+                iframe.contentWindow.postMessage({
+                    giscus: {
+                        setConfig: {
+                            theme: theme === 'dark' ? 'dark' : 'light'
+                        }
+                    }
+                }, 'https://giscus.app');
+            }
+        }
+        
+        // Listen for theme changes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial theme setup
+            setTimeout(updateGiscusTheme, 1000);
+            
+            // Listen for theme toggle
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    setTimeout(updateGiscusTheme, 100);
+                });
+            }
+            
+            // Listen for system theme changes
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.addEventListener('change', updateGiscusTheme);
+        });
+    </script>
+    
+    <noscript>
+        <p>Vui lòng bật JavaScript để xem bình luận.</p>
+    </noscript>
+</div>
+
+<style>
+.comments-section {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.comments-section h4 {
+    margin: 0 0 var(--spacing-lg) 0;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comments-info {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary-color);
+}
+
+.comments-info p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+#giscus-comments {
+    margin-top: var(--spacing-lg);
+}
+
+/* Giscus theme customization */
+.giscus {
+    --giscus-color-text: var(--text-primary);
+    --giscus-color-text-muted: var(--text-secondary);
+    --giscus-color-text-link: var(--primary-color);
+    --giscus-color-bg: var(--bg-primary);
+    --giscus-color-bg-secondary: var(--bg-secondary);
+    --giscus-color-bg-tertiary: var(--bg-tertiary);
+    --giscus-color-border: var(--border-color);
+    --giscus-color-border-hover: var(--border-hover);
+    --giscus-color-border-active: var(--primary-color);
+    --giscus-color-border-muted: var(--border-color);
+    --giscus-color-button-bg: var(--primary-color);
+    --giscus-color-button-text: white;
+    --giscus-color-button-hover: var(--primary-hover);
+    --giscus-color-button-active: var(--primary-hover);
+    --giscus-color-button-secondary-bg: var(--bg-tertiary);
+    --giscus-color-button-secondary-text: var(--text-primary);
+    --giscus-color-button-secondary-hover: var(--border-hover);
+    --giscus-color-button-secondary-active: var(--border-hover);
+    --giscus-color-accent-emphasis: var(--accent-color);
+    --giscus-color-accent-muted: var(--bg-tertiary);
+    --giscus-color-accent-border: var(--border-color);
+    --giscus-color-markdown-code-bg: var(--bg-tertiary);
+    --giscus-color-markdown-code-text: var(--text-primary);
+    --giscus-color-markdown-pre-bg: var(--bg-tertiary);
+    --giscus-color-markdown-pre-text: var(--text-primary);
+    --giscus-color-markdown-blockquote-border: var(--border-color);
+    --giscus-color-markdown-blockquote-text: var(--text-secondary);
+    --giscus-color-markdown-table-border: var(--border-color);
+    --giscus-color-markdown-table-tr-bg: var(--bg-secondary);
+    --giscus-color-markdown-table-tr-bg-alt: var(--bg-tertiary);
+    --giscus-color-markdown-table-th-bg: var(--bg-tertiary);
+    --giscus-color-markdown-table-th-text: var(--text-primary);
+    --giscus-color-markdown-table-td-text: var(--text-primary);
+    --giscus-color-markdown-table-td-border: var(--border-color);
+    --giscus-color-markdown-table-th-border: var(--border-color);
+    --giscus-color-markdown-table-border: var(--border-color);
+    --giscus-color-markdown-table-tr-bg: var(--bg-secondary);
+    --giscus-color-markdown-table-tr-bg-alt: var(--bg-tertiary);
+    --giscus-color-markdown-table-th-bg: var(--bg-tertiary);
+    --giscus-color-markdown-table-th-text: var(--text-primary);
+    --giscus-color-markdown-table-td-text: var(--text-primary);
+    --giscus-color-markdown-table-td-border: var(--border-color);
+    --giscus-color-markdown-table-th-border: var(--border-color);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .giscus {
+        --giscus-color-text: #e2e8f0;
+        --giscus-color-text-muted: #94a3b8;
+        --giscus-color-text-link: #60a5fa;
+        --giscus-color-bg: #1e293b;
+        --giscus-color-bg-secondary: #334155;
+        --giscus-color-bg-tertiary: #475569;
+        --giscus-color-border: #475569;
+        --giscus-color-border-hover: #64748b;
+        --giscus-color-border-active: #60a5fa;
+        --giscus-color-border-muted: #475569;
+        --giscus-color-button-bg: #3b82f6;
+        --giscus-color-button-text: white;
+        --giscus-color-button-hover: #2563eb;
+        --giscus-color-button-active: #2563eb;
+        --giscus-color-button-secondary-bg: #475569;
+        --giscus-color-button-secondary-text: #e2e8f0;
+        --giscus-color-button-secondary-hover: #64748b;
+        --giscus-color-button-secondary-active: #64748b;
+        --giscus-color-accent-emphasis: #f59e0b;
+        --giscus-color-accent-muted: #475569;
+        --giscus-color-accent-border: #475569;
+        --giscus-color-markdown-code-bg: #475569;
+        --giscus-color-markdown-code-text: #e2e8f0;
+        --giscus-color-markdown-pre-bg: #475569;
+        --giscus-color-markdown-pre-text: #e2e8f0;
+        --giscus-color-markdown-blockquote-border: #475569;
+        --giscus-color-markdown-blockquote-text: #94a3b8;
+        --giscus-color-markdown-table-border: #475569;
+        --giscus-color-markdown-table-tr-bg: #334155;
+        --giscus-color-markdown-table-tr-bg-alt: #475569;
+        --giscus-color-markdown-table-th-bg: #475569;
+        --giscus-color-markdown-table-th-text: #e2e8f0;
+        --giscus-color-markdown-table-td-text: #e2e8f0;
+        --giscus-color-markdown-table-td-border: #475569;
+        --giscus-color-markdown-table-th-border: #475569;
+    }
+}
+</style>

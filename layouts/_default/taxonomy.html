@@ -1,0 +1,23 @@
+{{ define "main" }}
+<div class="container">
+    <div class="taxonomy-header">
+        <h1>{{ .Title }}</h1>
+        <p>{{ .Content }}</p>
+    </div>
+    
+    <div class="taxonomy-list">
+        {{ range .Pages }}
+        <div class="taxonomy-item">
+            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            <p>{{ .Summary }}</p>
+            <div class="taxonomy-meta">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2/1/2006" }}</time>
+                {{ range .Params.tags }}
+                <span class="tag">{{ . }}</span>
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

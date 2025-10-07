@@ -1,0 +1,35 @@
+{{ $image := .image }}
+{{ $alt := .alt | default "" }}
+{{ $class := .class | default "" }}
+{{ $loading := .loading | default "lazy" }}
+{{ $sizes := .sizes | default "100vw" }}
+
+{{ if $image }}
+  {{ $imageResource := resources.Get $image }}
+  {{ if $imageResource }}
+    {{ $webp := $imageResource | resources.Fingerprint | resources.ExecuteAsTemplate (printf "%s.webp" $imageResource.Name) . }}
+    {{ $jpg := $imageResource | resources.Fingerprint | resources.ExecuteAsTemplate (printf "%s.jpg" $imageResource.Name) . }}
+    
+    <picture class="{{ $class }}">
+      <source srcset="{{ $webp.RelPermalink }}" type="image/webp" sizes="{{ $sizes }}">
+      <source srcset="{{ $jpg.RelPermalink }}" type="image/jpeg" sizes="{{ $sizes }}">
+      <img 
+        src="{{ $jpg.RelPermalink }}" 
+        alt="{{ $alt }}"
+        loading="{{ $loading }}"
+        decoding="async"
+        width="{{ $imageResource.Width }}"
+        height="{{ $imageResource.Height }}"
+        class="{{ $class }}"
+      >
+    </picture>
+  {{ else }}
+    <img 
+      src="{{ $image | relURL }}" 
+      alt="{{ $alt }}"
+      loading="{{ $loading }}"
+      decoding="async"
+      class="{{ $class }}"
+    >
+  {{ end }}
+{{ end }}

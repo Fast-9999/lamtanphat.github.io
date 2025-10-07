@@ -1,0 +1,163 @@
+{{ define "main" }}
+<section class="blog-header">
+    <div class="container">
+        <div class="blog-header-content">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-description">Chia sẻ kiến thức về lập trình Java và JavaScript</p>
+        </div>
+        
+        <!-- Compact Search Section -->
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-input-group">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm bài viết..." class="search-input">
+                    <button type="button" id="searchBtn" class="search-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="search-filters">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="all">Tất cả</option>
+                        <option value="Java">Java</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="Database">Database</option>
+                        <option value="API">API</option>
+                    </select>
+                    
+                    <select id="tagFilter" class="filter-select">
+                        <option value="all">Tags</option>
+                        <option value="Spring Boot">Spring Boot</option>
+                        <option value="React">React</option>
+                        <option value="Vue.js">Vue.js</option>
+                        <option value="Node.js">Node.js</option>
+                        <option value="OOP">OOP</option>
+                        <option value="ES6">ES6</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Search Results -->
+            <div id="searchResults" class="search-results" style="display: none;">
+                <div class="search-results-header">
+                    <h3 id="searchResultsTitle">Kết quả tìm kiếm</h3>
+                    <span id="searchResultsCount" class="results-count"></span>
+                </div>
+                <div id="searchResultsList" class="search-results-list"></div>
+            </div>
+            
+            <!-- No Results -->
+            <div id="noResults" class="no-results" style="display: none;">
+                <div class="no-results-content">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="no-results-icon">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <h3>Không tìm thấy kết quả</h3>
+                    <p>Hãy thử với từ khóa khác</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="blog-content">
+    <div class="container">
+        <div class="blog-layout">
+            <div class="blog-main">
+                <div class="posts-grid">
+                    {{ range .Pages }}
+                    <article class="post-card">
+                        {{ if .Params.featured_image }}
+                        <div class="post-thumbnail">
+                            <img src="{{ .Params.featured_image }}" alt="{{ .Title }}" loading="lazy">
+                            <div class="post-overlay">
+                                <div class="post-meta">
+                                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2/1/2006" }}</time>
+                                    {{ range .Params.categories }}
+                                    <span class="post-category">{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                            </div>
+                        </div>
+                        {{ else }}
+                        <div class="post-thumbnail no-image">
+                            <div class="post-meta">
+                                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2/1/2006" }}</time>
+                                {{ range .Params.categories }}
+                                <span class="post-category">{{ . }}</span>
+                                {{ end }}
+                            </div>
+                        </div>
+                        {{ end }}
+                        
+                        <div class="post-content">
+                            <h2 class="post-title">
+                                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                            </h2>
+                            <p class="post-excerpt">{{ .Summary | truncate 150 }}</p>
+                            
+                            <div class="post-footer">
+                                <div class="post-tags">
+                                    {{ range first 3 .Params.tags }}
+                                    <span class="tag">{{ . }}</span>
+                                    {{ end }}
+                                </div>
+                                <a href="{{ .RelPermalink }}" class="read-more">
+                                    <span>Đọc tiếp</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6-1.41-1.41z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    {{ end }}
+                </div>
+            </div>
+            
+            <aside class="blog-sidebar">
+                <div class="sidebar-widget">
+                    <h3>Danh mục</h3>
+                    <ul class="category-list">
+                        <li><a href="/blog/">Tất cả</a></li>
+                        <li><a href="/blog/?category=Java">Java</a></li>
+                        <li><a href="/blog/?category=JavaScript">JavaScript</a></li>
+                        <li><a href="/blog/?category=Database">Database</a></li>
+                        <li><a href="/blog/?category=API">API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3>Tags phổ biến</h3>
+                    <div class="tag-cloud">
+                        <span class="tag">Java</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Vue.js</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Database</span>
+                        <span class="tag">API</span>
+                        <span class="tag">OOP</span>
+                        <span class="tag">ES6</span>
+                    </div>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3>Bài viết gần đây</h3>
+                    <ul class="recent-posts">
+                        {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
+                        <li>
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                            <time>{{ .Date.Format "2/1/2006" }}</time>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{{ end }}
