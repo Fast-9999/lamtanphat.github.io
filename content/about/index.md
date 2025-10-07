@@ -5,7 +5,7 @@ draft: false
 ---
 
 <div style="text-align: center; margin: 2rem 0;">
-  <img src="/images/phat.jpg" alt="TaansFast" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.15);">
+  <img src="{{ "images/phat.jpg" | relURL }}" alt="TaansFast" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.15);">
 </div>
 
 # Xin chào! Tôi là TaansFast 👋

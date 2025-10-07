@@ -7,7 +7,7 @@ draft: false
 # 🚀 Chào mừng đến với Blog Lập Trình Mạng
 
 <div style="text-align: center; margin: 2rem 0;">
-  <img src="/images/phat.jpg" alt="TaansFast" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+  <img src="{{ "images/phat.jpg" | relURL }}" alt="TaansFast" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
 </div>
 
 Xin chào! Tôi là **TaansFast** 👋 - một **Network Programming Specialist** với hơn 5 năm kinh nghiệm trong việc phát triển các hệ thống mạng phức tạp và ứng dụng enterprise.

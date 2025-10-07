@@ -6,7 +6,7 @@ tags: ["API", "REST", "GraphQL", "Backend", "Web Services"]
 categories: ["Java"]
 description: "Tìm hiểu về API Development, RESTful APIs và GraphQL trong Java và JavaScript"
 featured: true
-featured_image: "/images/phat.jpg"
+featured_image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrHsQfkd8GnKUs97ekqsaW1ByxfFqfUBeNNQ&s"
 featured_badge: "Essential"
 views: 950
 likes: 67
